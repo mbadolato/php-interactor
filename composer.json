@@ -1,0 +1,37 @@
+{
+    "name": "mbadolato/php-interactor",
+    "type": "library",
+    "description": "An Interactor library for PHP",
+    "keywords": ["interactor"],
+    "homepage": "https://github.com/mbadolato/php-interactor",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mark Badolato",
+            "email": "mbadolato@cybernox.com",
+            "homepage": "http://www.markbadolato.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/mbadolato/php-interactor/issues"
+    },
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "*",
+        "phploc/phploc": "dev-master",
+        "phpspec/prophecy-phpunit": "~1.0",
+        "phpunit/phpunit": "3.7.*"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-0": {
+            "PhpInteractor\\": ["src/", "tests/"]
+        }
+    },
+    "minimum-stability": "stable"
+}
