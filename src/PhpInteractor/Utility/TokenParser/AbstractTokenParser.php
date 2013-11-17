@@ -14,7 +14,7 @@
 
 namespace PhpInteractor\Utility\TokenParser;
 
-abstract class BaseTokenParser implements TokenParserInterface
+abstract class AbstractTokenParser implements TokenParserInterface
 {
     protected static function isAbstractToken($token)
     {

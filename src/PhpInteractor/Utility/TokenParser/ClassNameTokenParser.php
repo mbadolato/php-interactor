@@ -14,7 +14,7 @@
 
 namespace PhpInteractor\Utility\TokenParser;
 
-class ClassNameTokenParser extends BaseTokenParser
+class ClassNameTokenParser extends AbstractTokenParser
 {
     /** {@inheritDoc} */
     public static function parse(array $tokens)

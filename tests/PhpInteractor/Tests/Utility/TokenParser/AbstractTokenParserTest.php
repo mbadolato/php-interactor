@@ -14,13 +14,13 @@
 
 namespace PhpInteractor\Tests\Utility\TokenParser;
 
-use PhpInteractor\Utility\TokenParser\BaseTokenParser;
+use PhpInteractor\Utility\TokenParser\AbstractTokenParser;
 
-class BaseTokenParserTest extends \PHPUnit_Framework_TestCase
+class AbstractTokenParserTest extends \PHPUnit_Framework_TestCase
 {
-    const CLASS_NAME = 'PhpInteractor\Utility\TokenParser\BaseTokenParser';
+    const CLASS_NAME = 'PhpInteractor\Utility\TokenParser\AbstractTokenParser';
 
-    /** @var BaseTokenParser */
+    /** @var AbstractTokenParser */
     private $parser;
 
     /** @test */
