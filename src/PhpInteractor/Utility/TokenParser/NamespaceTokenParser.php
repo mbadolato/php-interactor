@@ -42,12 +42,12 @@ class NamespaceTokenParser extends AbstractTokenParser
 
     private static function isNamespaceSection($token, $tokenHasBeenLocated)
     {
-        return $tokenHasBeenLocated && (self::isStringToken($token[0]) || self::isNamespaceSeparatorToken($token[0]));
+        return $tokenHasBeenLocated && (parent::isStringToken($token[0]) || parent::isNamespaceSeparatorToken($token[0]));
     }
 
     private static function isNamespaceStart($token)
     {
-        return is_array($token) && self::isNamespaceToken($token[0]);
+        return is_array($token) && parent::isNamespaceToken($token[0]);
     }
 
     private static function parseNamespaceSectionName($token, $tokenHasBeenLocated)

@@ -37,12 +37,12 @@ class ClassNameTokenParser extends AbstractTokenParser
 
     private static function isClassNameSection($token, $tokenHasBeenLocation)
     {
-        return $tokenHasBeenLocation && is_array($token) && self::isStringToken($token[0]);
+        return $tokenHasBeenLocation && is_array($token) && parent::isStringToken($token[0]);
     }
 
     private static function isClassStart($token)
     {
-        return is_array($token) && self::isClassType($token[0]);
+        return is_array($token) && parent::isClassType($token[0]);
     }
 
     private static function parseClassName($token, $tokenHasBeenLocated)
