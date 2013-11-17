@@ -20,7 +20,7 @@ class NamespaceTokenParser extends AbstractTokenParser
     public static function parse(array $tokens)
     {
         $located    = false;
-        $namespace 	= null;
+        $namespace  = null;
 
         foreach ($tokens as $token) {
             if (self::isNamespaceStart($token)) {
