@@ -1,5 +1,5 @@
 {
-    "name": "mbadolato/php-interactor",
+    "name": "php-interactor/php-interactor",
     "type": "library",
     "description": "An Interactor library for PHP",
     "keywords": ["interactor"],
