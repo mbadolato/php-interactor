@@ -43,8 +43,9 @@ class Candidate
      */
     public function __construct(\SplFileInfo $file)
     {
-        $this->file         = $file;
-        $this->reflection   = new \ReflectionClass($this->getClassName());
+        $this->file = $file;
+        $this->parseClassName();
+        $this->reflection = new \ReflectionClass($this->className);
     }
 
     /**
@@ -54,15 +55,6 @@ class Candidate
      */
     public function getClassName()
     {
-        if (! $this->className) {
-            $tokens     = $this->getFileTokens();
-            $namespace 	= NamespaceTokenParser::parse($tokens);
-            $className 	= ClassNameTokenParser::parse($tokens);
-            $this->validateParsedData($namespace, $className);
-
-            $this->className = sprintf("%s\\%s", $namespace, $className);
-        }
-
         return $this->className;
     }
 
@@ -118,6 +110,16 @@ class Candidate
     private function isConcrete()
     {
         return ! ($this->reflection->isAbstract() || $this->reflection->isInterface());
+    }
+
+    private function parseClassName()
+    {
+        $tokens     = $this->getFileTokens();
+        $namespace  = NamespaceTokenParser::parse($tokens);
+        $className  = ClassNameTokenParser::parse($tokens);
+
+        $this->validateParsedData($namespace, $className);
+        $this->className = sprintf("%s\\%s", $namespace, $className);
     }
 
     private function validateParsedData($namespace, $className)
