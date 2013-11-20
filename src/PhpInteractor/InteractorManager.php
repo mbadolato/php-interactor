@@ -63,7 +63,7 @@ class InteractorManager
     }
 
     /**
-     * The number of interactors are presently registered
+     * The number of interactors that are presently registered
      *
      * @return int
      */
