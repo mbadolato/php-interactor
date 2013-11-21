@@ -14,19 +14,7 @@
 
 namespace PhpInteractor;
 
-interface InteractorInterface
+interface InteractorRequestInterface
 {
-    /**
-     * Execute an interactor
-     *
-     * @param InteractorRequestInterface $request
-     */
-    public function execute(InteractorRequestInterface $request);
 
-    /**
-     * Get the interactor's name
-     *
-     * @return string
-     */
-    public function getName();
 }
