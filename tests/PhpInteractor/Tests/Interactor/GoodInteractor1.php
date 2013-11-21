@@ -15,11 +15,12 @@
 namespace PhpInteractor\Tests\Interactor;
 
 use PhpInteractor\InteractorInterface;
+use PhpInteractor\InteractorRequestInterface;
 
 class GoodInteractor1 implements InteractorInterface
 {
     /** {@inheritDoc} */
-    public function execute()
+    public function execute(InteractorRequestInterface $request)
     {
         // TODO: Implement execute() method.
     }
