@@ -29,4 +29,11 @@ interface InteractorInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Inject any services required by the interactor
+     *
+     * @param array $services
+     */
+    public function loadRequiredServices(array $services);
 }

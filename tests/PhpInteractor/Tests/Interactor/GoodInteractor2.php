@@ -30,4 +30,10 @@ class GoodInteractor2 implements InteractorInterface
     {
         return 'GoodInteractor2';
     }
+
+    /** {@inheritDoc} */
+    public function loadRequiredServices(array $parameters)
+    {
+
+    }
 }
