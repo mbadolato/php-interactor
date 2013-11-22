@@ -14,7 +14,7 @@
 
 namespace PhpInteractor;
 
-class InteractorDependencyManager
+class DependencyManager
 {
     /** @var DependencyMap */
     private $globalDependencies;

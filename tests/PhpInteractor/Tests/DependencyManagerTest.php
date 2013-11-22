@@ -14,21 +14,15 @@
 
 namespace PhpInteractor\Tests;
 
-use PhpInteractor\InteractorDependencyManager;
+use PhpInteractor\DependencyManager;
 
-class InteractorDependencyManagerTest extends \PHPUnit_Framework_TestCase
+class DependencyManagerTest extends \PHPUnit_Framework_TestCase
 {
     const DEFINED_INTERACTOR        = 'TestInteractorName';
     const NON_DEFINED_INTERACTOR    = 'InteractorNotSpecificallyDefinedSoOnlyGlobalDependencies';
 
-    /** @var InteractorDependencyManager */
+    /** @var DependencyManager */
     private $manager;
-
-    /** @test */
-    public function instantiation()
-    {
-        $this->assertInstanceOf('PhpInteractor\InteractorDependencyManager', $this->manager);
-    }
 
     /** @test */
     public function addGlobalDependency()
@@ -122,6 +116,6 @@ class InteractorDependencyManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->manager = new InteractorDependencyManager();
+        $this->manager = new DependencyManager();
     }
 }
