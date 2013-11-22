@@ -1,27 +1,27 @@
 <?php
 
+/**
+ * This file is part of the PhpInteractor package
+ *
+ * @package    PhpInteractor
+ * @author     Mark Badolato <mbadolato@cybernox.com>
+ * @copyright  Copyright (c) CyberNox Technologies. All rights reserved.
+ * @license    http://www.opensource.org/licenses/MIT MIT License
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PhpInteractor;
 
 use Assert\Assertion;
-use PhpCollection\Map;
 use PhpInteractor\Exception\InteractorAlreadyDefinedException;
 
-class InteractorMap
+class InteractorMap extends AbstractMap
 {
     const ERR_NO_CLASS          = 'Interactor class does not exist';
     const ERR_NOT_IMPLEMENTED   = 'InteractorInterface not implemented';
     const INTERACTOR_INTERFACE  = 'PhpInteractor\InteractorInterface';
-
-    /** @var Map */
-    private $map;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->map = new Map();
-    }
 
     /**
      * Add an interactor to the map
@@ -31,19 +31,10 @@ class InteractorMap
      */
     public function add($interactorName, $className)
     {
-        $this->validateInteractorNotAlreadyDefined($interactorName, $className);
-        $this->validateClass($className);
-        $this->map->set($interactorName, $className);
-    }
-
-    /**
-     * The number of interactors in the map
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return $this->map->count();
+        if (! $this->definitionExists($interactorName, $className)) {
+            $this->validate($interactorName, $className);
+            $this->set($interactorName, $className);
+        }
     }
 
     /**
@@ -55,51 +46,26 @@ class InteractorMap
      */
     public function getInteractorClass($interactorName)
     {
-        return $this->map->get($interactorName)->get();
+        return $this->get($interactorName);
     }
 
-    /**
-     * Does the map contain an interactor of the specified name?
-     *
-     * @param string $interactorName
-     *
-     * @return bool
-     */
-    public function has($interactorName)
+    private function definitionExists($interactorName, $className)
     {
-        return $this->map->containsKey($interactorName);
+        return $this->has($interactorName) && $this->isSameClass($interactorName, $className);
     }
 
-    /**
-     * Get an iterator for the interactor map
-     *
-     * @return \ArrayIterator
-     */
-    public function iterator()
+    private function isSameClass($interactorName, $className)
     {
-        return $this->map->getIterator();
+        return $className == $this->getInteractorClass($interactorName);
     }
 
-    private function exception($errorMessage, $className)
+    private function validate($interactorName, $className)
     {
-        return sprintf('%s: %s', $errorMessage, $className);
-    }
-
-    private function isDifferentClass($interactorName, $className)
-    {
-        return $className != $this->getInteractorClass($interactorName);
-    }
-
-    private function validateClass($className)
-    {
-        Assertion::classExists($className, $this->exception(self::ERR_NO_CLASS, $className));
-        Assertion::implementsInterface($className, self::INTERACTOR_INTERFACE, $this->exception(self::ERR_NOT_IMPLEMENTED, $className));
-    }
-
-    private function validateInteractorNotAlreadyDefined($interactorName, $className)
-    {
-        if ($this->has($interactorName) && $this->isDifferentClass($interactorName, $className)) {
+        if ($this->has($interactorName)) {
             throw new InteractorAlreadyDefinedException($interactorName, $className, $this->getInteractorClass($interactorName));
         }
+
+        Assertion::classExists($className, $this->exception(self::ERR_NO_CLASS, $className));
+        Assertion::implementsInterface($className, self::INTERACTOR_INTERFACE, $this->exception(self::ERR_NOT_IMPLEMENTED, $className));
     }
 }
