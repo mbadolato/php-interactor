@@ -17,18 +17,18 @@ namespace PhpInteractor;
 class InteractorDependencyManager
 {
     /** @var DependencyMap */
-    private $globals;
+    private $globalDependencies;
 
     /** @var InteractorDependenciesMap */
-    private $interactors;
+    private $interactorDependencies;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->globals      = new DependencyMap();
-        $this->interactors  = new InteractorDependenciesMap();
+        $this->globalDependencies       = new DependencyMap();
+        $this->interactorDependencies   = new InteractorDependenciesMap();
     }
 
     /**
@@ -39,7 +39,7 @@ class InteractorDependencyManager
      */
     public function addGlobalDependency($dependencyName, $dependencyValue)
     {
-        $this->globals->addDependency($dependencyName, $dependencyValue);
+        $this->globalDependencies->addDependency($dependencyName, $dependencyValue);
     }
 
     /**
@@ -51,8 +51,8 @@ class InteractorDependencyManager
      */
     public function addInteractorDependency($dependencyName, $dependencyValue, $interactorName)
     {
-        if (! $this->globals->has($dependencyName)) {
-            $this->interactors->addDependency($dependencyName, $dependencyValue, $interactorName);
+        if (! $this->globalDependencies->has($dependencyName)) {
+            $this->interactorDependencies->addDependency($dependencyName, $dependencyValue, $interactorName);
         }
     }
 
@@ -66,10 +66,10 @@ class InteractorDependencyManager
     public function getDependencyMap($interactorName)
     {
         $dependencies = new DependencyMap();
-        $dependencies->addMap($this->globals->getDependencyMap());
+        $dependencies->addMap($this->globalDependencies->getDependencyMap());
 
-        if ($this->interactors->has($interactorName)) {
-            $dependencies->addMap($this->interactors->getDependencyMap($interactorName));
+        if ($this->interactorDependencies->has($interactorName)) {
+            $dependencies->addMap($this->interactorDependencies->getDependencyMap($interactorName));
         }
 
         return $dependencies->getMap();
