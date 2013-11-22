@@ -66,10 +66,10 @@ class InteractorDependencyManager
     public function getDependencyMap($interactorName)
     {
         $dependencies = new DependencyMap();
-        $dependencies->addMap($this->globals->getMap());
+        $dependencies->addMap($this->globals->getDependencyMap());
 
         if ($this->interactors->has($interactorName)) {
-            $dependencies->addMap($this->interactors->getInteractorMap($interactorName));
+            $dependencies->addMap($this->interactors->getDependencyMap($interactorName));
         }
 
         return $dependencies->getMap();

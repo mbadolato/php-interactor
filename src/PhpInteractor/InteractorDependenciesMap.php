@@ -30,11 +30,13 @@ class InteractorDependenciesMap extends AbstractMap
     }
 
     /**
+     * Get the dependency map for an interactor
+     *
      * @param $interactorName
      *
      * @return \PhpCollection\Map
      */
-    public function getInteractorMap($interactorName)
+    public function getDependencyMap($interactorName)
     {
         return $this->get($interactorName)->getMap();
     }

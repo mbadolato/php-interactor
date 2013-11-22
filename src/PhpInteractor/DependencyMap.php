@@ -26,4 +26,14 @@ class DependencyMap extends AbstractMap
     {
         $this->add($dependencyName, $dependencyValue);
     }
+
+    /**
+     * Get the dependency map
+     *
+     * @return \PhpCollection\Map
+     */
+    public function getDependencyMap()
+    {
+        return $this->getMap();
+    }
 }
