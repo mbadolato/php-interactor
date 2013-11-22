@@ -14,7 +14,7 @@
 
 namespace PhpInteractor;
 
-class InteractorDependenciesMap extends AbstractMap
+class InteractorDependencyMap extends AbstractMap
 {
     /**
      * Add a dependency to the map

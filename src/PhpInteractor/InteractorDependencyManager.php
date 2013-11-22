@@ -19,7 +19,7 @@ class InteractorDependencyManager
     /** @var DependencyMap */
     private $globalDependencies;
 
-    /** @var InteractorDependenciesMap */
+    /** @var InteractorDependencyMap */
     private $interactorDependencies;
 
     /**
@@ -28,7 +28,7 @@ class InteractorDependencyManager
     public function __construct()
     {
         $this->globalDependencies       = new DependencyMap();
-        $this->interactorDependencies   = new InteractorDependenciesMap();
+        $this->interactorDependencies   = new InteractorDependencyMap();
     }
 
     /**
