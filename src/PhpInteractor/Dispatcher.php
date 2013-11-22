@@ -14,7 +14,7 @@
 
 namespace PhpInteractor;
 
-class InteractorManager
+class Dispatcher
 {
     /** @var InteractorMap */
     private $interactorMap;

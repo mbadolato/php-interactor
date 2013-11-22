@@ -14,13 +14,13 @@
 
 namespace PhpInteractor\Tests;
 
-use PhpInteractor\InteractorManager;
+use PhpInteractor\Dispatcher;
 
-class InteractorManagerTest extends \PHPUnit_Framework_TestCase
+class DispatcherTest extends \PHPUnit_Framework_TestCase
 {
     const INTERACTOR_MAP_CLASS = 'PhpInteractor\InteractorMap';
 
-    /** @var InteractorManager */
+    /** @var Dispatcher */
     private $manager;
 
     /** @test */
@@ -56,6 +56,6 @@ class InteractorManagerTest extends \PHPUnit_Framework_TestCase
     /** {@inheritDoc} */
     protected function setUp()
     {
-        $this->manager = new InteractorManager();
+        $this->manager = new Dispatcher();
     }
 }
