@@ -32,31 +32,6 @@ class DependencyManager
     }
 
     /**
-     * Add a global dependency
-     *
-     * @param string $dependencyName
-     * @param mixed  $dependencyValue
-     */
-    public function addGlobalDependency($dependencyName, $dependencyValue)
-    {
-        $this->globalDependencies->addDependency($dependencyName, $dependencyValue);
-    }
-
-    /**
-     * Add an interactor-specific dependency
-     *
-     * @param string $dependencyName
-     * @param mixed  $dependencyValue
-     * @param string $interactorName
-     */
-    public function addInteractorDependency($dependencyName, $dependencyValue, $interactorName)
-    {
-        if (! $this->globalDependencies->has($dependencyName)) {
-            $this->interactorDependencies->addDependency($dependencyName, $dependencyValue, $interactorName);
-        }
-    }
-
-    /**
      * Get the map of every dependency for an interactor
      *
      * @param string $interactorName
@@ -73,5 +48,30 @@ class DependencyManager
         }
 
         return $dependencies->getMap();
+    }
+
+    /**
+     * Register a global dependency
+     *
+     * @param string $dependencyName
+     * @param mixed  $dependencyValue
+     */
+    public function registerGlobalDependency($dependencyName, $dependencyValue)
+    {
+        $this->globalDependencies->addDependency($dependencyName, $dependencyValue);
+    }
+
+    /**
+     * Register an interactor-specific dependency
+     *
+     * @param string $dependencyName
+     * @param mixed  $dependencyValue
+     * @param string $interactorName
+     */
+    public function registerInteractorDependency($dependencyName, $dependencyValue, $interactorName)
+    {
+        if (! $this->globalDependencies->has($dependencyName)) {
+            $this->interactorDependencies->addDependency($dependencyName, $dependencyValue, $interactorName);
+        }
     }
 }
