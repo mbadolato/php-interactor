@@ -2,12 +2,12 @@
 
 namespace PhpInteractor\Exception;
 
-class UndeterminedPropertiesException extends \Exception
+class ClassDoesNotExistException extends \Exception
 {
     public function __construct($className, $message = null, \Exception $previous = null, $code = 0)
     {
         if (is_null($message)) {
-            $message = sprintf("Could not determine namespace and class name for %s", $className);
+            $message = sprintf('Interactor class does not exist: %s', $className);
         }
 
         parent::__construct($message, $code, $previous);

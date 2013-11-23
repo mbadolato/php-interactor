@@ -44,8 +44,7 @@ class InteractorMapTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException        \Assert\InvalidArgumentException
-     * @expectedExceptionMessage \PhpInteractor\InteractorMap::ERR_NO_CLASS
+     * @expectedException \PhpInteractor\Exception\ClassDoesNotExistException
      */
     public function addInteractorWithInvalidClass()
     {
@@ -54,8 +53,7 @@ class InteractorMapTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException        \Assert\InvalidArgumentException
-     * @expectedExceptionMessage \PhpInteractor\InteractorMap::ERR_NOT_IMPLEMENTED
+     * @expectedException \PhpInteractor\Exception\NonInteractorException
      */
     public function addInteractorThatDoesNotImplementInteractorInterface()
     {

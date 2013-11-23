@@ -14,15 +14,11 @@
 
 namespace PhpInteractor;
 
-use Assert\Assertion;
 use PhpInteractor\Exception\InteractorAlreadyDefinedException;
+use PhpInteractor\Utility\Assert;
 
 class InteractorMap extends AbstractMap
 {
-    const ERR_NO_CLASS          = 'Interactor class does not exist';
-    const ERR_NOT_IMPLEMENTED   = 'InteractorInterface not implemented';
-    const INTERACTOR_INTERFACE  = 'PhpInteractor\InteractorInterface';
-
     /**
      * Add an interactor to the map
      *
@@ -65,7 +61,7 @@ class InteractorMap extends AbstractMap
             throw new InteractorAlreadyDefinedException($interactorName, $className, $this->getInteractorClass($interactorName));
         }
 
-        Assertion::classExists($className, $this->exception(self::ERR_NO_CLASS, $className));
-        Assertion::implementsInterface($className, self::INTERACTOR_INTERFACE, $this->exception(self::ERR_NOT_IMPLEMENTED, $className));
+        Assert::classExists($className);
+        Assert::isInteractor($className);
     }
 }

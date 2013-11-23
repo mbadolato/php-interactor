@@ -116,17 +116,4 @@ abstract class AbstractMap
     {
         $this->map->set($key, $value);
     }
-
-    /**
-     * Get a formatted exception message
-     *
-     * @param string $errorMessage
-     * @param string $className
-     *
-     * @return string
-     */
-    protected function exception($errorMessage, $className)
-    {
-        return sprintf('%s: %s', $errorMessage, $className);
-    }
 }
