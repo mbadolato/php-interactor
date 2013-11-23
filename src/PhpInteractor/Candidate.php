@@ -67,8 +67,7 @@ class Candidate
      */
     public function getInteractorName()
     {
-        if (! $this->isInteractor())
-        {
+        if (! $this->isInteractor()) {
             throw new NonInteractorException($this->file->getFilename());
         }
 
