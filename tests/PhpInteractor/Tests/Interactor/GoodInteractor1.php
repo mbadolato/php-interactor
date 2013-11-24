@@ -14,25 +14,22 @@
 
 namespace PhpInteractor\Tests\Interactor;
 
-use PhpInteractor\InteractorInterface;
-use PhpInteractor\InteractorRequestInterface;
+use PhpInteractor\DependencyMap;
+use PhpInteractor\Helper\AbstractInteractor;
+use PhpInteractor\Tests\Request\GoodInteractor1Request;
 
-class GoodInteractor1 implements InteractorInterface
+class GoodInteractor1 extends AbstractInteractor
 {
-    /** {@inheritDoc} */
-    public function execute(InteractorRequestInterface $request)
+    /** Request $request */
+    private $request;
+
+    public function __construct(GoodInteractor1Request $request, DependencyMap $dependencyMap)
     {
-        // TODO: Implement execute() method.
+        $this->request = $request;
     }
 
     /** {@inheritDoc} */
-    public function getName()
-    {
-        return 'GoodInteractor1';
-    }
-
-    /** {@inheritDoc} */
-    public function loadRequiredServices(array $parameters)
+    public function execute()
     {
 
     }

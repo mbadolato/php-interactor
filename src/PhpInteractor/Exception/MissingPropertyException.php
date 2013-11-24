@@ -12,14 +12,16 @@
  * file that was distributed with this source code.
  */
 
-namespace PhpInteractor;
+namespace PhpInteractor\Exception;
 
-interface InteractorRequestInterface
+class MissingPropertyException extends \Exception
 {
-    /**
-     * Get the name of the interactor
-     *
-     * @return string
-     */
-    public function getInteractorName();
+    public function __construct($propertyName, $className, $message = null, \Exception $previous = null, $code = 0)
+    {
+        if (is_null($message)) {
+            $message = sprintf("No property %s exists in class: %s", $propertyName, $className);
+        }
+
+        parent::__construct($message, $code, $previous);
+    }
 }

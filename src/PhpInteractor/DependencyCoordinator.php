@@ -14,7 +14,7 @@
 
 namespace PhpInteractor;
 
-class DependencyManager
+class DependencyCoordinator
 {
     /** @var DependencyMap */
     private $globalDependencies;
@@ -36,7 +36,7 @@ class DependencyManager
      *
      * @param string $interactorName
      *
-     * @return \PhpCollection\Map
+     * @return DependencyMap
      */
     public function getDependencyMap($interactorName)
     {
@@ -47,7 +47,7 @@ class DependencyManager
             $dependencies->addMap($this->interactorDependencies->getDependencyMap($interactorName));
         }
 
-        return $dependencies->getMap();
+        return $dependencies;
     }
 
     /**

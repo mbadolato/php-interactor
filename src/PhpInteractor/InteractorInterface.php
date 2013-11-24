@@ -18,10 +18,8 @@ interface InteractorInterface
 {
     /**
      * Execute an interactor
-     *
-     * @param InteractorRequestInterface $request
      */
-    public function execute(InteractorRequestInterface $request);
+    public function execute();
 
     /**
      * Get the interactor's name
@@ -29,11 +27,4 @@ interface InteractorInterface
      * @return string
      */
     public function getName();
-
-    /**
-     * Inject any services required by the interactor
-     *
-     * @param array $services
-     */
-    public function loadRequiredServices(array $services);
 }

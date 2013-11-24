@@ -14,14 +14,14 @@
 
 namespace PhpInteractor\Tests;
 
-use PhpInteractor\DependencyManager;
+use PhpInteractor\DependencyCoordinator;
 
-class DependencyManagerTest extends \PHPUnit_Framework_TestCase
+class DependencyCoordinatorTest extends \PHPUnit_Framework_TestCase
 {
     const DEFINED_INTERACTOR        = 'TestInteractorName';
     const NON_DEFINED_INTERACTOR    = 'InteractorNotSpecificallyDefinedSoOnlyGlobalDependencies';
 
-    /** @var DependencyManager */
+    /** @var DependencyCoordinator */
     private $manager;
 
     /** @test */
@@ -29,9 +29,9 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->manager->registerGlobalDependency('standard', new \stdClass());
         $dependencies = $this->manager->getDependencyMap(self::NON_DEFINED_INTERACTOR);
-        $this->assertCount(1, $dependencies);
-        $this->assertTrue($dependencies->containsKey('standard'));
-        $this->assertInstanceOf('stdClass', $dependencies->get('standard')->get());
+        $this->assertEquals(1, $dependencies->count());
+        $this->assertTrue($dependencies->has('standard'));
+        $this->assertInstanceOf('stdClass', $dependencies->get('standard'));
     }
 
     /** @test */
@@ -39,9 +39,9 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->manager->registerInteractorDependency('standard', new \stdClass(), self::DEFINED_INTERACTOR);
         $dependencies = $this->manager->getDependencyMap(self::DEFINED_INTERACTOR);
-        $this->assertCount(1, $dependencies);
-        $this->assertTrue($dependencies->containsKey('standard'));
-        $this->assertInstanceOf('stdClass', $dependencies->get('standard')->get());
+        $this->assertEquals(1, $dependencies->count());
+        $this->assertTrue($dependencies->has('standard'));
+        $this->assertInstanceOf('stdClass', $dependencies->get('standard'));
     }
 
     /** @test */
@@ -50,10 +50,10 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
         $this->manager->registerInteractorDependency('standard', new \stdClass(), self::DEFINED_INTERACTOR);
         $this->manager->registerInteractorDependency('additional', new \stdClass(), self::DEFINED_INTERACTOR);
         $dependencies = $this->manager->getDependencyMap(self::DEFINED_INTERACTOR);
-        $this->assertCount(2, $dependencies);
-        $this->assertTrue($dependencies->containsKey('standard'));
-        $this->assertTrue($dependencies->containsKey('additional'));
-        $this->assertInstanceOf('stdClass', $dependencies->get('additional')->get());
+        $this->assertEquals(2, $dependencies->count());
+        $this->assertTrue($dependencies->has('standard'));
+        $this->assertTrue($dependencies->has('additional'));
+        $this->assertInstanceOf('stdClass', $dependencies->get('additional'));
     }
 
     /** @test */
@@ -63,16 +63,16 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
         $this->manager->registerInteractorDependency('standard', new \stdClass(), self::DEFINED_INTERACTOR);
 
         $dependencies = $this->manager->getDependencyMap(self::NON_DEFINED_INTERACTOR);
-        $this->assertCount(1, $dependencies);
-        $this->assertTrue($dependencies->containsKey('global'));
-        $this->assertFalse($dependencies->containsKey('standard'));
+        $this->assertEquals(1, $dependencies->count());
+        $this->assertTrue($dependencies->has('global'));
+        $this->assertFalse($dependencies->has('standard'));
 
         $dependencies = $this->manager->getDependencyMap(self::DEFINED_INTERACTOR);
-        $this->assertCount(2, $dependencies);
-        $this->assertTrue($dependencies->containsKey('global'));
-        $this->assertTrue($dependencies->containsKey('standard'));
-        $this->assertInstanceOf('stdClass', $dependencies->get('global')->get());
-        $this->assertInstanceOf('stdClass', $dependencies->get('standard')->get());
+        $this->assertEquals(2, $dependencies->count());
+        $this->assertTrue($dependencies->has('global'));
+        $this->assertTrue($dependencies->has('standard'));
+        $this->assertInstanceOf('stdClass', $dependencies->get('global'));
+        $this->assertInstanceOf('stdClass', $dependencies->get('standard'));
     }
 
     /** @test */
@@ -83,25 +83,25 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
         $this->manager->registerInteractorDependency('additional', new \stdClass(), 'TestInteractorName2');
 
         $dependencies = $this->manager->getDependencyMap(self::NON_DEFINED_INTERACTOR);
-        $this->assertCount(1, $dependencies);
-        $this->assertTrue($dependencies->containsKey('global'));
-        $this->assertFalse($dependencies->containsKey('standard'));
+        $this->assertEquals(1, $dependencies->count());
+        $this->assertTrue($dependencies->has('global'));
+        $this->assertFalse($dependencies->has('standard'));
 
         $dependencies = $this->manager->getDependencyMap(self::DEFINED_INTERACTOR);
-        $this->assertCount(2, $dependencies);
-        $this->assertTrue($dependencies->containsKey('global'));
-        $this->assertTrue($dependencies->containsKey('standard'));
-        $this->assertFalse($dependencies->containsKey('additional'));
-        $this->assertInstanceOf('stdClass', $dependencies->get('global')->get());
-        $this->assertInstanceOf('stdClass', $dependencies->get('standard')->get());
+        $this->assertEquals(2, $dependencies->count());
+        $this->assertTrue($dependencies->has('global'));
+        $this->assertTrue($dependencies->has('standard'));
+        $this->assertFalse($dependencies->has('additional'));
+        $this->assertInstanceOf('stdClass', $dependencies->get('global'));
+        $this->assertInstanceOf('stdClass', $dependencies->get('standard'));
 
         $dependencies = $this->manager->getDependencyMap('TestInteractorName2');
-        $this->assertCount(2, $dependencies);
-        $this->assertTrue($dependencies->containsKey('global'));
-        $this->assertTrue($dependencies->containsKey('additional'));
-        $this->assertFalse($dependencies->containsKey('standard'));
-        $this->assertInstanceOf('stdClass', $dependencies->get('global')->get());
-        $this->assertInstanceOf('stdClass', $dependencies->get('additional')->get());
+        $this->assertEquals(2, $dependencies->count());
+        $this->assertTrue($dependencies->has('global'));
+        $this->assertTrue($dependencies->has('additional'));
+        $this->assertFalse($dependencies->has('standard'));
+        $this->assertInstanceOf('stdClass', $dependencies->get('global'));
+        $this->assertInstanceOf('stdClass', $dependencies->get('additional'));
     }
 
     /** @test */
@@ -110,12 +110,12 @@ class DependencyManagerTest extends \PHPUnit_Framework_TestCase
         $this->manager->registerGlobalDependency('standard', new \stdClass());
         $this->manager->registerInteractorDependency('standard', new \stdClass(), self::DEFINED_INTERACTOR);
         $dependencies = $this->manager->getDependencyMap('standard');
-        $this->assertCount(1, $dependencies);
-        $this->assertTrue($dependencies->containsKey('standard'));
+        $this->assertEquals(1, $dependencies->count());
+        $this->assertTrue($dependencies->has('standard'));
     }
 
     protected function setUp()
     {
-        $this->manager = new DependencyManager();
+        $this->manager = new DependencyCoordinator();
     }
 }

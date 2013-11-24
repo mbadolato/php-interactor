@@ -16,15 +16,30 @@ namespace PhpInteractor;
 
 class Dispatcher
 {
+    /** @var DependencyCoordinator */
+    private $dependencies;
+
     /** @var InteractorMap */
-    private $interactorMap;
+    private $interactors;
 
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(InteractorMap $interactors, DependencyCoordinator $dependencies)
     {
-        $this->interactorMap = new InteractorMap();
+        $this->interactors  = $interactors;
+        $this->dependencies = $dependencies;
+    }
+
+    /**
+     * Execute an interactor
+     *
+     * @param InteractorRequestInterface $request
+     */
+    public function execute(InteractorRequestInterface $request)
+    {
+        $interactor = $this->getInteractorObject($request);
+        $interactor->execute($request);
     }
 
     /**
@@ -36,7 +51,7 @@ class Dispatcher
      */
     public function getClassName($interactorName)
     {
-        return $this->interactorMap->getInteractorClass($interactorName);
+        return $this->interactors->getInteractorClass($interactorName);
     }
 
     /**
@@ -48,7 +63,7 @@ class Dispatcher
      */
     public function isRegistered($interactorName)
     {
-        return $this->interactorMap->has($interactorName);
+        return $this->interactors->has($interactorName);
     }
 
     /**
@@ -57,9 +72,9 @@ class Dispatcher
      * @param string $interactorName The name of the interactor
      * @param string $className      The class that implements the interactor
      */
-    public function register($interactorName, $className)
+    public function registerInteractor($interactorName, $className)
     {
-        $this->interactorMap->add($interactorName, $className);
+        $this->interactors->add($interactorName, $className);
     }
 
     /**
@@ -69,6 +84,33 @@ class Dispatcher
      */
     public function registeredCount()
     {
-        return $this->interactorMap->count();
+        return $this->interactors->count();
+    }
+
+    /**
+     * Get the dependency map for an interactor
+     *
+     * @param InteractorRequestInterface $request
+     *
+     * @return DependencyMap
+     */
+    private function getDependencyMap(InteractorRequestInterface $request)
+    {
+        return $this->dependencies->getDependencyMap($request->getInteractorName());
+    }
+
+    /**
+     * Get an instantiated interactor object
+     *
+     * @param InteractorRequestInterface $request
+     *
+     * @return InteractorInterface
+     */
+    private function getInteractorObject(InteractorRequestInterface $request)
+    {
+        $className  = $this->interactors->get($request->getInteractorName());
+        $reflection = new \ReflectionClass($className);
+
+        return $reflection->newInstance($request, $this->getDependencyMap($request));
     }
 }

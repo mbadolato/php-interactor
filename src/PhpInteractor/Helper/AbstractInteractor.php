@@ -12,14 +12,22 @@
  * file that was distributed with this source code.
  */
 
-namespace PhpInteractor;
+namespace PhpInteractor\Helper;
 
-interface InteractorRequestInterface
+use PhpInteractor\InteractorInterface;
+
+abstract class AbstractInteractor implements InteractorInterface
 {
-    /**
-     * Get the name of the interactor
-     *
-     * @return string
-     */
-    public function getInteractorName();
+    /** {@inheritDoc} */
+    public function getName()
+    {
+        $parts = $this->getClassNameComponents();
+
+        return end($parts);
+    }
+
+    private function getClassNameComponents()
+    {
+        return explode('\\', get_class($this));
+    }
 }

@@ -12,14 +12,15 @@
  * file that was distributed with this source code.
  */
 
-namespace PhpInteractor;
+namespace PhpInteractor\Tests\Request;
 
-interface InteractorRequestInterface
+use PhpInteractor\Helper\AbstractInteractorRequest;
+
+class GoodInteractor1Request extends AbstractInteractorRequest
 {
-    /**
-     * Get the name of the interactor
-     *
-     * @return string
-     */
-    public function getInteractorName();
+    /** @var string */
+    public $userId;
+
+    /** @var string */
+    public $emailAddress;
 }

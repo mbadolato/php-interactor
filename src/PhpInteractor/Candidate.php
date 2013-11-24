@@ -71,10 +71,9 @@ class Candidate
             throw new NonInteractorException($this->file->getFilename());
         }
 
-        $method     = $this->reflection->getMethod(self::NAME_GETTER_METHOD);
-        $className  = $this->getClassName();
+        $method = $this->reflection->getMethod(self::NAME_GETTER_METHOD);
 
-        return $method->invoke(new $className(), self::NAME_GETTER_METHOD);
+        return $method->invoke($this->reflection->newInstanceWithoutConstructor(), self::NAME_GETTER_METHOD);
     }
 
     /**
