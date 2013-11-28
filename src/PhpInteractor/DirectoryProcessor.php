@@ -19,6 +19,8 @@ use Symfony\Component\Finder\Finder;
 
 class DirectoryProcessor
 {
+    const GET_INTERACTOR_MAP_METHOD = 'getInteractorMap';
+
     /** @var string */
     private $directory;
 

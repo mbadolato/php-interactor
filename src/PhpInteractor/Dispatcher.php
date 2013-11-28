@@ -17,6 +17,7 @@ namespace PhpInteractor;
 class Dispatcher
 {
     const REGISTER_DEPENDENCIES_METHOD  = 'setDependencyCoordinator';
+    const REGISTER_INTERACTORS_METHOD   = 'setInteractorMap';
 
     /** @var DependencyCoordinator */
     private $dependencies;
