@@ -16,6 +16,9 @@ namespace PhpInteractor;
 
 class DependencyCoordinator
 {
+    const REGISTER_GLOBAL_METHOD        = 'registerGlobalDependency';
+    const REGISTER_INTERACTOR_METHOD    = 'registerInteractorDependency';
+
     /** @var DependencyMap */
     private $globalDependencies;
 

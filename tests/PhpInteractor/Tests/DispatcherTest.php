@@ -29,14 +29,14 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function getClassName()
     {
-        $this->manager->registerInteractor('GoodInteractor1', 'PhpInteractor\Tests\Interactor\GoodInteractor1');
+        $this->manager->setInteractorMap($this->getInteractorMap());
         $this->assertEquals('PhpInteractor\Tests\Interactor\GoodInteractor1', $this->manager->getClassName('GoodInteractor1'));
     }
 
     /** @test */
     public function isRegistered()
     {
-        $this->manager->registerInteractor('GoodInteractor1', 'PhpInteractor\Tests\Interactor\GoodInteractor1');
+        $this->manager->setInteractorMap($this->getInteractorMap());
         $this->assertTrue($this->manager->isRegistered('GoodInteractor1'));
         $this->assertFalse($this->manager->isRegistered('Test'));
     }
@@ -44,22 +44,23 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function registeredOne()
     {
-        $this->manager->registerInteractor('GoodInteractor1', 'PhpInteractor\Tests\Interactor\GoodInteractor1');
+        $this->manager->setInteractorMap($this->getInteractorMap());
         $this->assertEquals(1, $this->manager->registeredCount());
     }
 
     /** @test */
     public function registeredTwo()
     {
-        $this->manager->registerInteractor('GoodInteractor1', 'PhpInteractor\Tests\Interactor\GoodInteractor1');
-        $this->manager->registerInteractor('GoodInteractor2', 'PhpInteractor\Tests\Interactor\GoodInteractor2');
+        $interactorMap =$this->getInteractorMap();
+        $interactorMap->add('GoodInteractor2', 'PhpInteractor\Tests\Interactor\GoodInteractor2');
+        $this->manager->setInteractorMap($interactorMap);
         $this->assertEquals(2, $this->manager->registeredCount());
     }
 
     /** @test */
     public function execute()
     {
-        $this->manager->registerInteractor('GoodInteractor1', 'PhpInteractor\Tests\Interactor\GoodInteractor1');
+        $this->manager->setInteractorMap($this->getInteractorMap());
         $this->manager->execute(new GoodInteractor1Request(['userId' => 123, 'emailAddress' => 'new@example.com']));
     }
 
@@ -67,5 +68,13 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->manager = new Dispatcher(new InteractorMap(), new DependencyCoordinator());
+    }
+
+    private function getInteractorMap()
+    {
+        $interactorMap = new InteractorMap();
+        $interactorMap->add('GoodInteractor1', 'PhpInteractor\Tests\Interactor\GoodInteractor1');
+
+        return $interactorMap;
     }
 }

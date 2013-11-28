@@ -16,6 +16,8 @@ namespace PhpInteractor;
 
 class Dispatcher
 {
+    const REGISTER_DEPENDENCIES_METHOD  = 'setDependencyCoordinator';
+
     /** @var DependencyCoordinator */
     private $dependencies;
 
@@ -27,8 +29,8 @@ class Dispatcher
      */
     public function __construct(InteractorMap $interactors, DependencyCoordinator $dependencies)
     {
-        $this->interactors  = $interactors;
-        $this->dependencies = $dependencies;
+        $this->setInteractorMap($interactors);
+        $this->setDependencyCoordinator($dependencies);
     }
 
     /**
@@ -67,17 +69,6 @@ class Dispatcher
     }
 
     /**
-     * Register an interactor
-     *
-     * @param string $interactorName The name of the interactor
-     * @param string $className      The class that implements the interactor
-     */
-    public function registerInteractor($interactorName, $className)
-    {
-        $this->interactors->add($interactorName, $className);
-    }
-
-    /**
      * The number of interactors that are presently registered
      *
      * @return int
@@ -85,6 +76,16 @@ class Dispatcher
     public function registeredCount()
     {
         return $this->interactors->count();
+    }
+
+    public function setDependencyCoordinator(DependencyCoordinator $dependencies)
+    {
+        $this->dependencies = $dependencies;
+    }
+
+    public function setInteractorMap(InteractorMap $interactors)
+    {
+        $this->interactors = $interactors;
     }
 
     /**
