@@ -95,7 +95,7 @@ class Candidate
         return token_get_all(file_get_contents($this->file));
     }
 
-    private function  hasValidRequiredComponents($namespace, $className)
+    private function hasValidRequiredComponents($namespace, $className)
     {
         return $namespace && $className;
     }
