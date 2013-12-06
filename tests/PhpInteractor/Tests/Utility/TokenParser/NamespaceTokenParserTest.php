@@ -37,7 +37,7 @@ class NamespaceTokenParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $namespace);
     }
 
-    private function  getFileContents($filename)
+    private function getFileContents($filename)
     {
         return file_get_contents(sprintf("%s/../../Interactor/%s.php", __DIR__, $filename));
     }

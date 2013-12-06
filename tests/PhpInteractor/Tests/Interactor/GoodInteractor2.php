@@ -18,9 +18,6 @@ use PhpInteractor\InteractorInterface;
 
 class GoodInteractor2 implements InteractorInterface
 {
-    /** Request $request */
-    private $request;
-
     /** {@inheritDoc} */
     public function execute()
     {

@@ -82,7 +82,7 @@ class AbstractTokenParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /** {@inheritDoc} */
-    protected function  setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->parser = $this->getMockForAbstractClass(self::CLASS_NAME);
