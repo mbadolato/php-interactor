@@ -85,15 +85,15 @@ abstract class AbstractMap
     }
 
     /**
-     * Does the map contain an interactor of the specified name?
+     * Does the map contain a dependency of the specified name?
      *
-     * @param string $interactorName
+     * @param string $dependencyName
      *
      * @return bool
      */
-    public function has($interactorName)
+    public function has($dependencyName)
     {
-        return $this->map->containsKey($interactorName);
+        return $this->map->containsKey($dependencyName);
     }
 
     /**

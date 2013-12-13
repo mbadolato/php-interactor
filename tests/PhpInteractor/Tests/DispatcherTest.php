@@ -34,7 +34,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function isRegistered()
+    public function isInteractorRegistered()
     {
         $this->manager->setInteractorMap($this->getInteractorMap());
         $this->assertTrue($this->manager->isRegistered('GoodInteractor1'));

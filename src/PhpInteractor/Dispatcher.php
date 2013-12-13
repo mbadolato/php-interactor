@@ -16,8 +16,8 @@ namespace PhpInteractor;
 
 class Dispatcher
 {
-    const REGISTER_DEPENDENCIES_METHOD  = 'setDependencyCoordinator';
-    const REGISTER_INTERACTORS_METHOD   = 'setInteractorMap';
+    const REGISTER_DEPENDENCIES_METHOD  = 'registerDependency';
+    const REGISTER_INTERACTORS_METHOD   = 'registerInteractor';
 
     /** @var DependencyCoordinator */
     private $dependencies;
@@ -28,10 +28,10 @@ class Dispatcher
     /**
      * Constructor
      */
-    public function __construct(InteractorMap $interactors, DependencyCoordinator $dependencies)
+    public function __construct()
     {
-        $this->setInteractorMap($interactors);
-        $this->setDependencyCoordinator($dependencies);
+        $this->interactors  = new InteractorMap();
+        $this->dependencies = new DependencyCoordinator();
     }
 
     /**
@@ -64,9 +64,33 @@ class Dispatcher
      *
      * @return bool
      */
-    public function isRegistered($interactorName)
+    public function isInteractorRegistered($interactorName)
     {
         return $this->interactors->has($interactorName);
+    }
+
+    /**
+     * Register a dependency
+     *
+     * @param string      $dependencyName
+     * @param string      $dependencyValue
+     * @param string|null $interactorName
+     */
+    public function registerDependency($dependencyName, $dependencyValue, $interactorName = null)
+    {
+        $registrationMethodName = $this->getDependencyRegistrationMethodName($interactorName);
+        $this->dependencies->$registrationMethodName($dependencyName, $dependencyValue, $interactorName);
+    }
+
+    /**
+     * Register an interactor
+     *
+     * @param string $interactorName
+     * @param string $className
+     */
+    public function registerInteractor($interactorName, $className)
+    {
+        $this->interactors->add($interactorName, $className);
     }
 
     /**
@@ -79,14 +103,16 @@ class Dispatcher
         return $this->interactors->count();
     }
 
-    public function setDependencyCoordinator(DependencyCoordinator $dependencies)
+    /**
+     * Get the name of the registration method to use for registering a dependency
+     *
+     * @param string $interactorName
+     *
+     * @return string
+     */
+    private function getDependencyRegistrationMethodName($interactorName)
     {
-        $this->dependencies = $dependencies;
-    }
-
-    public function setInteractorMap(InteractorMap $interactors)
-    {
-        $this->interactors = $interactors;
+        return $interactorName ? DependencyCoordinator::REGISTER_INTERACTOR_METHOD : DependencyCoordinator::REGISTER_GLOBAL_METHOD;
     }
 
     /**
