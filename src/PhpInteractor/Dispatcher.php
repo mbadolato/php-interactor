@@ -57,6 +57,13 @@ class Dispatcher
         return $this->interactors->getInteractorClass($interactorName);
     }
 
+    public function getDependencies($interactorName)
+    {
+        return ($this->isInteractorRegistered($interactorName))
+            ? $this->dependencies->getDependencyMap($interactorName)
+            : [];
+    }
+
     /**
      * Has an interactor been registered?
      *

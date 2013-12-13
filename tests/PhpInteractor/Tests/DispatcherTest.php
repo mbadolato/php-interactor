@@ -29,52 +29,103 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function getClassName()
     {
-        $this->manager->setInteractorMap($this->getInteractorMap());
         $this->assertEquals('PhpInteractor\Tests\Interactor\GoodInteractor1', $this->manager->getClassName('GoodInteractor1'));
     }
 
     /** @test */
     public function isInteractorRegistered()
     {
-        $this->manager->setInteractorMap($this->getInteractorMap());
-        $this->assertTrue($this->manager->isRegistered('GoodInteractor1'));
-        $this->assertFalse($this->manager->isRegistered('Test'));
+        $this->assertTrue($this->manager->isInteractorRegistered('GoodInteractor1'));
+        $this->assertFalse($this->manager->isInteractorRegistered('Test'));
     }
 
     /** @test */
-    public function registeredOne()
+    public function oneRegisteredGlobalDependency()
     {
-        $this->manager->setInteractorMap($this->getInteractorMap());
+        $dependencies = $this->manager->getDependencies('GoodInteractor1');
+        $this->assertEquals(1, $dependencies->count());
+        $this->assertTrue($dependencies->has('global_dependency_1'));
+        $this->assertFalse($dependencies->has('test_dependency'));
+    }
+
+    /** @test */
+    public function twoRegisteredGlobalDependencies()
+    {
+        $this->manager->registerDependency('global_dependency_2', 'GlobalDependency2');
+        $dependencies = $this->manager->getDependencies('GoodInteractor1');
+        $this->assertEquals(2, $dependencies->count());
+        $this->assertTrue($dependencies->has('global_dependency_1'));
+        $this->assertTrue($dependencies->has('global_dependency_2'));
+        $this->assertFalse($dependencies->has('test_dependency'));
+    }
+
+    /** @test */
+    public function oneRegisteredInteractorDependency()
+    {
+        $this->manager->registerDependency('interactor_dependency_1', 'InteractorDependency1', 'GoodInteractor1');
+        $dependencies = $this->manager->getDependencies('GoodInteractor1');
+        $this->assertEquals(2, $dependencies->count());
+        $this->assertTrue($dependencies->has('global_dependency_1'));
+        $this->assertTrue($dependencies->has('interactor_dependency_1'));
+        $this->assertFalse($dependencies->has('test_dependency'));
+    }
+
+    /** @test */
+    public function twoRegisteredInteractorDependencies()
+    {
+        $this->manager->registerDependency('interactor_dependency_1', 'InteractorDependency1', 'GoodInteractor1');
+        $this->manager->registerDependency('interactor_dependency_2', 'InteractorDependency2', 'GoodInteractor1');
+        $dependencies = $this->manager->getDependencies('GoodInteractor1');
+        $this->assertEquals(3, $dependencies->count());
+        $this->assertTrue($dependencies->has('global_dependency_1'));
+        $this->assertTrue($dependencies->has('interactor_dependency_1'));
+        $this->assertTrue($dependencies->has('interactor_dependency_2'));
+        $this->assertFalse($dependencies->has('test_dependency'));
+    }
+
+    /** @test */
+    public function oneRegisteredInteractor()
+    {
         $this->assertEquals(1, $this->manager->registeredCount());
     }
 
     /** @test */
-    public function registeredTwo()
+    public function twoRegisteredInteractors()
     {
-        $interactorMap =$this->getInteractorMap();
-        $interactorMap->add('GoodInteractor2', 'PhpInteractor\Tests\Interactor\GoodInteractor2');
-        $this->manager->setInteractorMap($interactorMap);
+        $this->manager->registerInteractor('GoodInteractor2', 'PhpInteractor\Tests\Interactor\GoodInteractor2');
         $this->assertEquals(2, $this->manager->registeredCount());
     }
 
     /** @test */
     public function execute()
     {
-        $this->manager->setInteractorMap($this->getInteractorMap());
         $this->manager->execute(new GoodInteractor1Request(['userId' => 123, 'emailAddress' => 'new@example.com']));
+    }
+
+    /**
+     * @test
+     * @expectedException \PhpInteractor\Exception\MissingPropertyException
+     */
+    public function executeWithBadProperty()
+    {
+        $this->manager->execute(new GoodInteractor1Request(['userId' => 123, 'emailAddress' => 'new@example.com', 'bad_property' => 'Error']));
     }
 
     /** {@inheritDoc} */
     protected function setUp()
     {
         $this->manager = new Dispatcher(new InteractorMap(), new DependencyCoordinator());
+        $this->registerInteractors();
+        $this->registerDependencies();
     }
 
-    private function getInteractorMap()
+    private function registerDependencies()
     {
-        $interactorMap = new InteractorMap();
-        $interactorMap->add('GoodInteractor1', 'PhpInteractor\Tests\Interactor\GoodInteractor1');
+        $this->manager->registerDependency('global_dependency_1', 'GlobalDependency1');
+    }
 
-        return $interactorMap;
+    private function registerInteractors()
+    {
+        $this->manager->registerInteractor('GoodInteractor1', 'PhpInteractor\Tests\Interactor\GoodInteractor1');
     }
 }
